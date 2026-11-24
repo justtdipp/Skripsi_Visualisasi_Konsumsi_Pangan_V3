@@ -1,0 +1,66 @@
+﻿Tahun,Kode_Wilayah_Bapanas,Provinsi_Bapanas_Asli,Kabupaten_Kota_Bapanas_Asli,Kode_Wilayah_BPS,Kode_Provinsi_BPS,Provinsi_BPS_Standar_Crosswalk,Kabupaten_Kota_BPS_Standar_Crosswalk,Status_Crosswalk,Catatan_Crosswalk,Kandidat_BPS,Flag_Kode_Bapanas_Multi_Identitas,Flag_Beberapa_Sumber_Menuju_BPS_Sama
+2023,3172,Jawa Barat,Kota Jakarta Utara,3175,31,DKI Jakarta,Kota Jakarta Utara,NAMA_UNIK_PROVINSI_SUMBER_BERBEDA_PERLU_TINJAUAN,Nama wilayah unik secara nasional tetapi provinsi sumber berbeda,3175 DKI Jakarta - Kota Jakarta Utara,False,False
+2023,3278,Jawa Barat,Kota Tasikmalaya,3278,32,Jawa Barat,Kota Tasikmalaya,COCOK_NAMA_PROVINSI_DAN_TIPE,Nama dan tipe wilayah cocok,3206 Jawa Barat - Kabupaten Tasikmalaya | 3278 Jawa Barat - Kota Tasikmalaya,False,True
+2023,3278,Jawa Tengah,Kota Tasikmalaya,3278,32,Jawa Barat,Kota Tasikmalaya,NAMA_DAN_TIPE_UNIK_PROVINSI_SUMBER_BERBEDA_PERLU_TINJAUAN,Nama dan tipe cocok tetapi provinsi sumber berbeda,3206 Jawa Barat - Kabupaten Tasikmalaya | 3278 Jawa Barat - Kota Tasikmalaya,False,True
+2023,3279,Jawa Tengah,Kota Banjar,3279,32,Jawa Barat,Kota Banjar,NAMA_DAN_TIPE_UNIK_PROVINSI_SUMBER_BERBEDA_PERLU_TINJAUAN,Nama dan tipe cocok tetapi provinsi sumber berbeda,3279 Jawa Barat - Kota Banjar | 6303 Kalimantan Selatan - Kabupaten Banjar,False,False
+2023,3401,Jawa Tengah,Kulon Progo,3401,34,DI Yogyakarta,Kabupaten Kulon Progo,NAMA_UNIK_PROVINSI_SUMBER_BERBEDA_PERLU_TINJAUAN,Nama wilayah unik secara nasional tetapi provinsi sumber berbeda,3401 DI Yogyakarta - Kabupaten Kulon Progo,False,True
+2023,3401,DI Yogyakarta,Kulon Progo,3401,34,DI Yogyakarta,Kabupaten Kulon Progo,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,3401 DI Yogyakarta - Kabupaten Kulon Progo,False,True
+2023,6302,Kalimantan Selatan,Kota Baru,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2023,6402,Kalimantan Timur,Kutai Kertanegara,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2023,5301,Nusa Tenggara Timur,Kupang,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,5303 Nusa Tenggara Timur - Kabupaten Kupang | 5371 Nusa Tenggara Timur - Kota Kupang,False,False
+2023,7109,Sulawesi Utara,KepulauanSiau Tagulandang Biaro,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2023,7174,Sulawesi Utara,Kota Kotamobago,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2023,7301,Sulawesi Selatan,Selayar,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2023,7304,Sulawesi Selatan,Janeponto,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2023,7310,Sulawesi Selatan,Pangkajane dan Kepulauan,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2023,7371,Sulawesi Selatan,Kota Makasar,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2023,7501,Gorontalo,Gorontalo,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,7502 Gorontalo - Kabupaten Gorontalo | 7571 Gorontalo - Kota Gorontalo,False,False
+2023,8103,Maluku,Kepulauan Tanibar,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2023,9208,Papua Barat,Kaimana,9102,91,Papua Barat,Kabupaten Kaimana,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,9102 Papua Barat - Kabupaten Kaimana,True,False
+2023,9208,Papua Barat,Teluk Wondama,9103,91,Papua Barat,Kabupaten Teluk Wondama,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,9103 Papua Barat - Kabupaten Teluk Wondama,True,True
+2023,9207,Papua Barat,Teluk Wondama,9103,91,Papua Barat,Kabupaten Teluk Wondama,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,9103 Papua Barat - Kabupaten Teluk Wondama,True,True
+2023,9207,Papua Barat,Teluk Bintuni,9104,91,Papua Barat,Kabupaten Teluk Bintuni,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,9104 Papua Barat - Kabupaten Teluk Bintuni,True,True
+2023,9206,Papua Barat,Teluk Bintuni,9104,91,Papua Barat,Kabupaten Teluk Bintuni,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,9104 Papua Barat - Kabupaten Teluk Bintuni,False,True
+2023,9201,Papua Barat,Sorong,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,9107 Papua Barat - Kabupaten Sorong | 9171 Papua Barat - Kota Sorong,False,False
+2023,9103,Papua,Jayapura,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,9403 Papua - Kabupaten Jayapura | 9471 Papua - Kota Jayapura,False,False
+2023,1302,Sumatera Barat,Solok,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,1303 Sumatera Barat - Kabupaten Solok | 1372 Sumatera Barat - Kota Solok,False,False
+2022,3278,Jawa Barat,Kota Tasikmalaya,3278,32,Jawa Barat,Kota Tasikmalaya,COCOK_NAMA_PROVINSI_DAN_TIPE,Nama dan tipe wilayah cocok,3206 Jawa Barat - Kabupaten Tasikmalaya | 3278 Jawa Barat - Kota Tasikmalaya,False,True
+2022,3278,Jawa Tengah,Kota Tasikmalaya,3278,32,Jawa Barat,Kota Tasikmalaya,NAMA_DAN_TIPE_UNIK_PROVINSI_SUMBER_BERBEDA_PERLU_TINJAUAN,Nama dan tipe cocok tetapi provinsi sumber berbeda,3206 Jawa Barat - Kabupaten Tasikmalaya | 3278 Jawa Barat - Kota Tasikmalaya,False,True
+2022,3279,Jawa Tengah,Kota Banjar,3279,32,Jawa Barat,Kota Banjar,NAMA_DAN_TIPE_UNIK_PROVINSI_SUMBER_BERBEDA_PERLU_TINJAUAN,Nama dan tipe cocok tetapi provinsi sumber berbeda,3279 Jawa Barat - Kota Banjar | 6303 Kalimantan Selatan - Kabupaten Banjar,False,False
+2022,6302,Kalimantan Selatan,Kota Baru,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2022,6402,Kalimantan Timur,Kutai Kertanegara,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2022,5301,Nusa Tenggara Timur,Kupang,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,5303 Nusa Tenggara Timur - Kabupaten Kupang | 5371 Nusa Tenggara Timur - Kota Kupang,False,False
+2022,7109,Sulawesi Utara,KepulauanSiau Tagulandang Biaro,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2022,7174,Sulawesi Utara,Kota Kotamobago,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2022,7301,Sulawesi Selatan,Selayar,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2022,7304,Sulawesi Selatan,Janeponto,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2022,7310,Sulawesi Selatan,Pangkajane dan Kepulauan,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2022,7371,Sulawesi Selatan,Kota Makasar,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2022,7501,Gorontalo,Gorontalo,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,7502 Gorontalo - Kabupaten Gorontalo | 7571 Gorontalo - Kota Gorontalo,False,False
+2022,8103,Maluku,Kepulauan Tanibar,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2022,9208,Papua Barat,Kaimana,9102,91,Papua Barat,Kabupaten Kaimana,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,9102 Papua Barat - Kabupaten Kaimana,True,False
+2022,9208,Papua Barat,Teluk Wondama,9103,91,Papua Barat,Kabupaten Teluk Wondama,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,9103 Papua Barat - Kabupaten Teluk Wondama,True,True
+2022,9207,Papua Barat,Teluk Wondama,9103,91,Papua Barat,Kabupaten Teluk Wondama,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,9103 Papua Barat - Kabupaten Teluk Wondama,True,True
+2022,9207,Papua Barat,Teluk Bintuni,9104,91,Papua Barat,Kabupaten Teluk Bintuni,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,9104 Papua Barat - Kabupaten Teluk Bintuni,True,True
+2022,9206,Papua Barat,Teluk Bintuni,9104,91,Papua Barat,Kabupaten Teluk Bintuni,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,9104 Papua Barat - Kabupaten Teluk Bintuni,False,True
+2022,9201,Papua Barat,Sorong,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,9107 Papua Barat - Kabupaten Sorong | 9171 Papua Barat - Kota Sorong,False,False
+2022,9103,Papua,Jayapura,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,9403 Papua - Kabupaten Jayapura | 9471 Papua - Kota Jayapura,False,False
+2022,1302,Sumatera Barat,Solok,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,1303 Sumatera Barat - Kabupaten Solok | 1372 Sumatera Barat - Kota Solok,False,False
+2021,6302,Kalimantan Selatan,Kota Baru,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2021,6402,Kalimantan Timur,Kutai Kertanegara,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2021,6411,Kalimantan Timur,Mahakam Ulu,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2021,5301,Nusa Tenggara Timur,Kupang,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,5303 Nusa Tenggara Timur - Kabupaten Kupang | 5371 Nusa Tenggara Timur - Kota Kupang,False,False
+2021,7109,Sulawesi Utara,KepulauanSiau Tagulandang Biaro,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2021,7174,Sulawesi Utara,Kota Kotamobago,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2021,7301,Sulawesi Selatan,Selayar,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2021,7304,Sulawesi Selatan,Janeponto,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2021,7310,Sulawesi Selatan,Pangkajane dan Kepulauan,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2021,7371,Sulawesi Selatan,Kota Makasar,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2021,7501,Gorontalo,Gorontalo,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,7502 Gorontalo - Kabupaten Gorontalo | 7571 Gorontalo - Kota Gorontalo,False,False
+2021,8103,Maluku,Kepulauan Tanibar,,,,,TIDAK_DITEMUKAN,Tidak ada nama wilayah yang cocok,,False,False
+2021,9201,Papua Barat,Sorong,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,9107 Papua Barat - Kabupaten Sorong | 9171 Papua Barat - Kota Sorong,False,False
+2021,9103,Papua,Jayapura,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,9403 Papua - Kabupaten Jayapura | 9471 Papua - Kota Jayapura,False,False
+2021,1115,Aceh,Nagan Raya,1115,11,Aceh,Kabupaten Nagan Raya,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,1115 Aceh - Kabupaten Nagan Raya,False,True
+2021,1114,Aceh,Nagan Raya,1115,11,Aceh,Kabupaten Nagan Raya,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,1115 Aceh - Kabupaten Nagan Raya,True,True
+2021,1114,Aceh,Aceh Jaya,1116,11,Aceh,Kabupaten Aceh Jaya,COCOK_PROVINSI_DAN_NAMA,Nama wilayah cocok di provinsi yang sama,1116 Aceh - Kabupaten Aceh Jaya,True,False
+2021,1302,Sumatera Barat,Solok,,,,,AMBIGU_BEBERAPA_KANDIDAT,Nama wilayah memiliki lebih dari satu kandidat dalam provinsi,1303 Sumatera Barat - Kabupaten Solok | 1372 Sumatera Barat - Kota Solok,False,False
