@@ -1278,7 +1278,9 @@ elif page == "📋 Tabel Data Konsumsi":
         "Konsumsi_Pangan_Final",
         "Status_Kelayakan_Dashboard_19",
         "Status_Final_Dataset_19",
+        "Flag_Anomali_Sumber_19",
         "Catatan_Final_Dataset_19",
+        "Catatan_Pembersihan_Nilai_18",
         "Catatan_Rekonsiliasi_16E",
         "Konsumsi Pangan",
     ]
@@ -1302,7 +1304,9 @@ elif page == "📋 Tabel Data Konsumsi":
         "Konsumsi_Pangan_Final": "Konsumsi Final (kg/kapita/tahun)",
         "Status_Kelayakan_Dashboard_19": "Status Kelayakan",
         "Status_Final_Dataset_19": "Kategori Nilai Data",
+        "Flag_Anomali_Sumber_19": "Flag Anomali Sumber",
         "Catatan_Final_Dataset_19": "Penjelasan Audit & Kualitas",
+        "Catatan_Pembersihan_Nilai_18": "Catatan Pembersihan Nilai",
         "Catatan_Rekonsiliasi_16E": "Catatan Rekonsiliasi Wilayah",
         "Konsumsi Pangan": "Nilai Mentah Sumber Asli",
     })

@@ -1,0 +1,329 @@
+{
+  "desktop_1366x768": {
+    "viewport": "1366x768",
+    "console_errors": [],
+    "page_errors": [],
+    "metrics": {
+      "viewportWidth": 1366,
+      "docScrollWidth": 1366,
+      "hasHorizontalOverflow": false,
+      "appBgColor": "rgb(16, 27, 24)",
+      "appHasBgImage": true,
+      "appTextColor": "rgb(243, 244, 239)",
+      "heroVisible": true,
+      "heroOverflows": false,
+      "sidebarExpanded": null,
+      "sidebarWidth": 300,
+      "kpiCount": 4,
+      "kpis": [
+        {
+          "left": 380,
+          "top": 723.3125,
+          "right": 594.5,
+          "bottom": 896.171875,
+          "width": 214.5,
+          "height": 172.859375
+        },
+        {
+          "left": 610.5,
+          "top": 723.3125,
+          "right": 825,
+          "bottom": 896.171875,
+          "width": 214.5,
+          "height": 172.859375
+        },
+        {
+          "left": 841,
+          "top": 723.3125,
+          "right": 1055.5,
+          "bottom": 896.171875,
+          "width": 214.5,
+          "height": 172.859375
+        },
+        {
+          "left": 1071.5,
+          "top": 723.3125,
+          "right": 1286,
+          "bottom": 896.171875,
+          "width": 214.5,
+          "height": 172.859375
+        }
+      ],
+      "chartCount": 5,
+      "charts": [
+        {
+          "idx": 0,
+          "left": 380,
+          "right": 1286,
+          "width": 906,
+          "height": 430,
+          "overflowsRight": false
+        },
+        {
+          "idx": 1,
+          "left": 380,
+          "right": 1286,
+          "width": 906,
+          "height": 460,
+          "overflowsRight": false
+        },
+        {
+          "idx": 2,
+          "left": 380,
+          "right": 825,
+          "width": 445,
+          "height": 470,
+          "overflowsRight": false
+        },
+        {
+          "idx": 3,
+          "left": 841,
+          "right": 1286,
+          "width": 445,
+          "height": 470,
+          "overflowsRight": false
+        },
+        {
+          "idx": 4,
+          "left": 380,
+          "right": 1286,
+          "width": 906,
+          "height": 390,
+          "overflowsRight": false
+        }
+      ],
+      "selectCount": 0,
+      "selectOverflows": 0
+    },
+    "kpi_overlaps": [],
+    "kpi_overflows": [],
+    "chart_overflows": [],
+    "sidebar_accessible": true,
+    "table_metrics": {
+      "dfVisible": true,
+      "dfWidth": 932,
+      "dfOverflowsPage": false,
+      "dlBtnVisible": true,
+      "dlBtnOverflows": false,
+      "docScrollWidthOnTable": 1366
+    }
+  },
+  "tablet_768x1024": {
+    "viewport": "768x1024",
+    "console_errors": [],
+    "page_errors": [],
+    "metrics": {
+      "viewportWidth": 768,
+      "docScrollWidth": 768,
+      "hasHorizontalOverflow": false,
+      "appBgColor": "rgb(16, 27, 24)",
+      "appHasBgImage": true,
+      "appTextColor": "rgb(243, 244, 239)",
+      "heroVisible": true,
+      "heroOverflows": false,
+      "sidebarExpanded": null,
+      "sidebarWidth": 300,
+      "kpiCount": 4,
+      "kpis": [
+        {
+          "left": 316,
+          "top": 1064.546875,
+          "right": 526,
+          "bottom": 1237.40625,
+          "width": 210,
+          "height": 172.859375
+        },
+        {
+          "left": 542,
+          "top": 1064.546875,
+          "right": 752,
+          "bottom": 1237.40625,
+          "width": 210,
+          "height": 172.859375
+        },
+        {
+          "left": 316,
+          "top": 1253.40625,
+          "right": 526,
+          "bottom": 1426.265625,
+          "width": 210,
+          "height": 172.859375
+        },
+        {
+          "left": 542,
+          "top": 1253.40625,
+          "right": 752,
+          "bottom": 1426.265625,
+          "width": 210,
+          "height": 172.859375
+        }
+      ],
+      "chartCount": 5,
+      "charts": [
+        {
+          "idx": 0,
+          "left": 316,
+          "right": 752,
+          "width": 436,
+          "height": 430,
+          "overflowsRight": false
+        },
+        {
+          "idx": 1,
+          "left": 316,
+          "right": 752,
+          "width": 436,
+          "height": 460,
+          "overflowsRight": false
+        },
+        {
+          "idx": 2,
+          "left": 316,
+          "right": 526,
+          "width": 210,
+          "height": 470,
+          "overflowsRight": false
+        },
+        {
+          "idx": 3,
+          "left": 542,
+          "right": 752,
+          "width": 210,
+          "height": 470,
+          "overflowsRight": false
+        },
+        {
+          "idx": 4,
+          "left": 316,
+          "right": 752,
+          "width": 436,
+          "height": 390,
+          "overflowsRight": false
+        }
+      ],
+      "selectCount": 0,
+      "selectOverflows": 0
+    },
+    "kpi_overlaps": [],
+    "kpi_overflows": [],
+    "chart_overflows": [],
+    "sidebar_accessible": true,
+    "table_metrics": {
+      "dfVisible": true,
+      "dfWidth": 462,
+      "dfOverflowsPage": true,
+      "dlBtnVisible": true,
+      "dlBtnOverflows": false,
+      "docScrollWidthOnTable": 768
+    }
+  },
+  "mobile_390x844": {
+    "viewport": "390x844",
+    "console_errors": [],
+    "page_errors": [],
+    "metrics": {
+      "viewportWidth": 390,
+      "docScrollWidth": 390,
+      "hasHorizontalOverflow": false,
+      "appBgColor": "rgb(16, 27, 24)",
+      "appHasBgImage": true,
+      "appTextColor": "rgb(243, 244, 239)",
+      "heroVisible": true,
+      "heroOverflows": false,
+      "sidebarExpanded": null,
+      "sidebarWidth": 300,
+      "kpiCount": 4,
+      "kpis": [
+        {
+          "left": 16,
+          "top": 1271,
+          "right": 374,
+          "bottom": 1429.015625,
+          "width": 358,
+          "height": 158.015625
+        },
+        {
+          "left": 16,
+          "top": 1445.015625,
+          "right": 374,
+          "bottom": 1603.03125,
+          "width": 358,
+          "height": 158.015625
+        },
+        {
+          "left": 16,
+          "top": 1619.03125,
+          "right": 374,
+          "bottom": 1777.046875,
+          "width": 358,
+          "height": 158.015625
+        },
+        {
+          "left": 16,
+          "top": 1793.046875,
+          "right": 374,
+          "bottom": 1951.0625,
+          "width": 358,
+          "height": 158.015625
+        }
+      ],
+      "chartCount": 5,
+      "charts": [
+        {
+          "idx": 0,
+          "left": 16,
+          "right": 374,
+          "width": 358,
+          "height": 430,
+          "overflowsRight": false
+        },
+        {
+          "idx": 1,
+          "left": 16,
+          "right": 374,
+          "width": 358,
+          "height": 460,
+          "overflowsRight": false
+        },
+        {
+          "idx": 2,
+          "left": 16,
+          "right": 374,
+          "width": 358,
+          "height": 470,
+          "overflowsRight": false
+        },
+        {
+          "idx": 3,
+          "left": 16,
+          "right": 374,
+          "width": 358,
+          "height": 470,
+          "overflowsRight": false
+        },
+        {
+          "idx": 4,
+          "left": 16,
+          "right": 374,
+          "width": 358,
+          "height": 390,
+          "overflowsRight": false
+        }
+      ],
+      "selectCount": 0,
+      "selectOverflows": 0
+    },
+    "kpi_overlaps": [],
+    "kpi_overflows": [],
+    "chart_overflows": [],
+    "sidebar_accessible": true,
+    "table_metrics": {
+      "dfVisible": true,
+      "dfWidth": 384,
+      "dfOverflowsPage": true,
+      "dlBtnVisible": true,
+      "dlBtnOverflows": false,
+      "docScrollWidthOnTable": 390
+    }
+  }
+}
