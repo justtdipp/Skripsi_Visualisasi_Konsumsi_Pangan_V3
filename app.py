@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 from pathlib import Path
 from typing import Iterable
 
@@ -11,16 +12,264 @@ import streamlit as st
 # ============================================================
 # SISTEM INFORMASI VISUALISASI KONSUMSI PANGAN
 # Dataset: Bapanas 2021-2023, hasil finalisasi V2
+# Konsep Visual: Indonesian Food & Agriculture Data Observatory
 # ============================================================
 
 st.set_page_config(
     page_title="Visualisasi Konsumsi Pangan",
-    page_icon="🍚",
+    page_icon="🌾",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
 BASE_DIR = Path(__file__).resolve().parent
+
+
+@st.cache_data
+def load_asset_data_uri(filename: str, mime: str) -> str:
+    """Muat aset visual lokal sebagai data URI agar selalu tampil offline/online."""
+    asset_path = BASE_DIR / "assets" / filename
+    if not asset_path.exists():
+        return ""
+    encoded = base64.b64encode(asset_path.read_bytes()).decode("ascii")
+    return f"data:{mime};base64,{encoded}"
+
+
+BG_OBSERVATORY_URI = load_asset_data_uri("bg_observatory.jpg", "image/jpeg")
+HERO_BANNER_URI = load_asset_data_uri("hero_food_banner.jpg", "image/jpeg")
+SIDEBAR_CONTOUR_URI = load_asset_data_uri("sidebar_contour.svg", "image/svg+xml")
+
+_APP_BG_LAYER = (
+    f'linear-gradient(180deg, rgba(16, 27, 24, 0.86) 0%, rgba(16, 27, 24, 0.93) 55%, rgba(16, 27, 24, 0.97) 100%), url("{BG_OBSERVATORY_URI}")'
+    if BG_OBSERVATORY_URI
+    else "radial-gradient(circle at 10% 20%, rgba(143, 174, 145, 0.05) 0%, transparent 25%)"
+)
+_HERO_BG_LAYER = (
+    f'linear-gradient(90deg, rgba(23, 41, 35, 0.96) 0%, rgba(23, 41, 35, 0.90) 48%, rgba(32, 53, 45, 0.48) 100%), url("{HERO_BANNER_URI}")'
+    if HERO_BANNER_URI
+    else "linear-gradient(135deg, #172923 0%, #20352D 100%)"
+)
+_SIDEBAR_BG_LAYER = (
+    f'url("{SIDEBAR_CONTOUR_URI}")'
+    if SIDEBAR_CONTOUR_URI
+    else "none"
+)
+
+# Custom Dark Food Analytics & Agricultural Observatory CSS Theme
+st.markdown(
+    f"""
+    <style>
+    /* Global Background: Indonesian Food & Agriculture Observatory */
+    .stApp {{
+        background-color: #101B18;
+        color: #F3F4EF;
+        background-image: {_APP_BG_LAYER};
+        background-size: cover;
+        background-position: center top;
+        background-attachment: fixed;
+    }}
+    
+    /* Sidebar Styling with Subtle Agricultural Contour Texture */
+    section[data-testid="stSidebar"] {{
+        background-color: #172923 !important;
+        background-image: {_SIDEBAR_BG_LAYER};
+        background-repeat: repeat-y;
+        background-position: bottom center;
+        background-size: 100% auto;
+        border-right: 1px solid rgba(143, 174, 145, 0.2);
+    }}
+    section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"] > div {{
+        color: #F3F4EF;
+    }}
+    
+    /* Header Hero Container with 8-Food-Group Botanical & Data Identity */
+    .header-hero {{
+        background-color: #172923;
+        background-image: {_HERO_BG_LAYER};
+        background-size: cover;
+        background-position: right center;
+        border: 1px solid rgba(143, 174, 145, 0.3);
+        border-radius: 16px;
+        padding: 26px 30px;
+        margin-bottom: 22px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.42);
+        position: relative;
+        overflow: hidden;
+    }}
+    .header-kicker {{
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        color: #E9C46A;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }}
+    .header-title {{
+        font-size: 27px;
+        font-weight: 700;
+        color: #F3F4EF;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        letter-spacing: -0.3px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }}
+    .header-badge {{
+        display: inline-block;
+        background-color: rgba(143, 174, 145, 0.22);
+        color: #CDE0CE;
+        border: 1px solid rgba(143, 174, 145, 0.4);
+        padding: 3px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }}
+    .header-subtitle {{
+        font-size: 14px;
+        color: #D5E2D0;
+        line-height: 1.55;
+        max-width: 720px;
+        margin: 0 0 12px 0;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    }}
+    .food-group-strip {{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+        max-width: 760px;
+    }}
+    .food-pill {{
+        background-color: rgba(16, 27, 24, 0.72);
+        border: 1px solid rgba(143, 174, 145, 0.28);
+        color: #A3B899;
+        font-size: 11px;
+        padding: 2px 9px;
+        border-radius: 12px;
+        backdrop-filter: blur(4px);
+    }}
+
+    /* KPI Metric Cards */
+    .kpi-container {{
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }}
+    .kpi-card {{
+        background: linear-gradient(160deg, rgba(32, 53, 45, 0.95) 0%, rgba(23, 41, 35, 0.96) 100%);
+        border: 1px solid rgba(143, 174, 145, 0.24);
+        border-radius: 14px;
+        padding: 18px 20px;
+        flex: 1 1 200px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+        position: relative;
+    }}
+    .kpi-card:hover {{
+        border-color: rgba(143, 174, 145, 0.5);
+        transform: translateY(-2px);
+    }}
+    .kpi-icon {{
+        font-size: 22px;
+        margin-bottom: 8px;
+        display: inline-block;
+    }}
+    .kpi-label {{
+        font-size: 12px;
+        font-weight: 600;
+        color: #A3B899;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 6px;
+    }}
+    .kpi-value {{
+        font-size: 28px;
+        font-weight: 700;
+        color: #F3F4EF;
+        line-height: 1.1;
+        margin-bottom: 6px;
+    }}
+    .kpi-desc {{
+        font-size: 11px;
+        color: rgba(243, 244, 239, 0.72);
+        line-height: 1.35;
+    }}
+
+    /* Solid Layered Backing for Charts, Tables, and Expanders */
+    div[data-testid="stPlotlyChart"],
+    div[data-testid="stDataFrame"],
+    div[data-testid="stExpander"] {{
+        background-color: rgba(23, 41, 35, 0.92);
+        border: 1px solid rgba(143, 174, 145, 0.18);
+        border-radius: 14px;
+        padding: 10px 12px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    }}
+
+    /* Alert / Callout Boxes */
+    div[data-testid="stAlert"] {{
+        background-color: rgba(23, 41, 35, 0.92);
+        border-radius: 12px;
+        border-width: 1px;
+    }}
+    
+    /* Inputs, Selectbox, and Widgets in Dark Theme */
+    div[data-baseweb="select"] > div {{
+        background-color: #20352D !important;
+        border-color: rgba(143, 174, 145, 0.25) !important;
+        border-radius: 8px !important;
+        color: #F3F4EF !important;
+    }}
+    div[data-baseweb="select"] * {{
+        color: #F3F4EF !important;
+    }}
+    input[type="text"] {{
+        background-color: #20352D !important;
+        border-color: rgba(143, 174, 145, 0.25) !important;
+        border-radius: 8px !important;
+        color: #F3F4EF !important;
+    }}
+    
+    /* Buttons */
+    .stDownloadButton button, .stButton button {{
+        background-color: #2E5339 !important;
+        color: #F3F4EF !important;
+        border: 1px solid rgba(143, 174, 145, 0.35) !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        transition: all 0.2s ease !important;
+    }}
+    .stDownloadButton button:hover, .stButton button:hover {{
+        background-color: #3B6B4A !important;
+        border-color: #8FAE91 !important;
+        box-shadow: 0 2px 8px rgba(143, 174, 145, 0.25) !important;
+    }}
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {{
+        width: 8px;
+        height: 8px;
+    }}
+    ::-webkit-scrollbar-track {{
+        background: #101B18;
+    }}
+    ::-webkit-scrollbar-thumb {{
+        background: #20352D;
+        border-radius: 4px;
+    }}
+    ::-webkit-scrollbar-thumb:hover {{
+        background: #8FAE91;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 DATA_FILE = (
     BASE_DIR
     / "data"
@@ -98,6 +347,47 @@ STATUS_FINAL_LABEL_MAP = {
     "ANOMALI_NILAI_TINGGI_DARI_SUMBER": "Anomali Angka Ekstrem dari Sumber",
     "NILAI_TIDAK_TERSEDIA_DI_SUMBER": "Data Tidak Tersedia di Sumber Bapanas",
 }
+
+
+# ============================================================
+# TEMPLATE & PALET WARNA PLOTLY DARK FOOD ANALYTICS
+# ============================================================
+PLOTLY_THEME_LAYOUT = dict(
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(32, 53, 45, 0.4)",
+    font=dict(color="#F3F4EF", family="sans-serif", size=12),
+    xaxis=dict(
+        gridcolor="rgba(143, 174, 145, 0.12)",
+        zerolinecolor="rgba(143, 174, 145, 0.2)",
+        tickfont=dict(color="#A3B899"),
+        title_font=dict(color="#F3F4EF", size=13),
+    ),
+    yaxis=dict(
+        gridcolor="rgba(143, 174, 145, 0.12)",
+        zerolinecolor="rgba(143, 174, 145, 0.2)",
+        tickfont=dict(color="#A3B899"),
+        title_font=dict(color="#F3F4EF", size=13),
+    ),
+    legend=dict(
+        font=dict(color="#F3F4EF", size=11),
+        bgcolor="rgba(23, 41, 35, 0.7)",
+        bordercolor="rgba(143, 174, 145, 0.25)",
+        borderwidth=1,
+    ),
+)
+
+FOOD_COLOR_SEQUENCE = [
+    "#8FAE91",  # Sage Green (Aksen Utama)
+    "#E29578",  # Terakota / Oranye Keemasan Padi
+    "#457B9D",  # Teal Biru Sejuk
+    "#E9C46A",  # Kuning Jagung / Pangan Nabati
+    "#52B788",  # Hijau Daun Segar
+    "#A8DADC",  # Soft Cyan
+    "#DDA15E",  # Cokelat Gandum / Umbi
+    "#74C69D",  # Emerald Soft
+    "#F4A261",  # Warm Amber
+    "#90BE6D",  # Pistachio Green
+]
 
 
 @st.cache_data(show_spinner="Memuat dataset konsumsi pangan...")
@@ -328,16 +618,27 @@ count_missing = int(quality_counts.get(STATUS_MISSING, 0))
 # ============================================================
 # SIDEBAR / NAVIGASI / FILTER
 # ============================================================
-st.sidebar.title("🍚 Konsumsi Pangan")
-st.sidebar.caption("Sistem Informasi Visualisasi Konsumsi Pangan Kabupaten/Kota Indonesia")
+st.sidebar.markdown(
+    """
+    <div style="padding: 10px 0 16px 0; border-bottom: 1px solid rgba(143, 174, 145, 0.2); margin-bottom: 15px;">
+        <div style="font-size: 20px; font-weight: 700; color: #F3F4EF; display: flex; align-items: center; gap: 8px;">
+            🌾 <span>Konsumsi Pangan</span>
+        </div>
+        <div style="font-size: 12px; color: #8FAE91; margin-top: 4px; font-weight: 500;">
+            Katalog Analisis Kabupaten/Kota
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 page = st.sidebar.radio(
     "Navigasi Halaman",
     ["📊 Dashboard Visualisasi", "📋 Tabel Data Konsumsi", "ℹ️ Tentang Data & Metodologi"],
     key="main_navigation_v2",
 )
 st.sidebar.divider()
-st.sidebar.markdown("**🔍 Filter Data Utama**")
-st.sidebar.caption("💡 Mengendalikan ringkasan KPI, Grafik 1 (Kelompok Pangan), dan Grafik 2 (Komoditas). Bagian Perbandingan 3 & 4 memiliki pengaturan mandiri.")
+st.sidebar.markdown("<p style='font-size: 13px; font-weight: 600; color: #A3B899; text-transform: uppercase; letter-spacing: 0.5px;'>🔍 Filter Data Utama</p>", unsafe_allow_html=True)
+st.sidebar.caption("💡 Mengendalikan KPI, Grafik 1 (Kelompok Pangan), dan Grafik 2 (Komoditas). Perbandingan 3 & 4 memiliki kontrol mandiri.")
 
 all_years = sorted(df["Tahun"].dropna().astype(int).unique().tolist())
 year_options = with_all([str(year) for year in all_years])
@@ -402,24 +703,46 @@ st.sidebar.caption("Sumber: Badan Pangan Nasional (2024)")
 
 
 # ============================================================
-# HEADER GLOBAL
+# HEADER GLOBAL (HERO SECTION)
 # ============================================================
-st.title("Sistem Informasi Visualisasi Konsumsi Pangan")
-st.caption(
-    "Visualisasi data konsumsi pangan penduduk kabupaten/kota Indonesia "
-    "periode 2021–2023. Satuan: kg/kapita/tahun."
+st.markdown(
+    """
+    <div class="header-hero">
+        <div class="header-kicker">
+            🛰️ INDONESIAN FOOD &amp; AGRICULTURE DATA OBSERVATORY
+        </div>
+        <div class="header-title">
+            🌾 Sistem Informasi Visualisasi Konsumsi Pangan
+            <span class="header-badge">514 Kab/Kota • 2021–2023</span>
+        </div>
+        <div class="header-subtitle">
+            Observatorium analitik konsumsi pangan penduduk kabupaten/kota Indonesia berbasis data Badan Pangan Nasional.
+            Satuan pengukuran: <strong>kg/kapita/tahun</strong>.
+        </div>
+        <div class="food-group-strip">
+            <span class="food-pill">🌾 Padi-padian</span>
+            <span class="food-pill">🍠 Umbi-umbian</span>
+            <span class="food-pill">🐟 Pangan Hewani</span>
+            <span class="food-pill">🥥 Minyak &amp; Lemak</span>
+            <span class="food-pill">🌰 Buah/Biji Berminyak</span>
+            <span class="food-pill">🥜 Kacang-kacangan</span>
+            <span class="food-pill">🍯 Gula</span>
+            <span class="food-pill">🥬 Sayur &amp; Buah</span>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
 )
 
 if count_notes:
     st.info(
-        f"Dataset memuat {format_int(count_notes)} nilai hasil rekonsiliasi/koreksi "
-        "yang ditandai DAPAT_DIGUNAKAN_DENGAN_CATATAN. Nilai tersebut disertakan "
-        "dengan catatan transparansi."
+        f"💡 **Transparansi Kualitas:** Dataset memuat {format_int(count_notes)} nilai hasil rekonsiliasi wilayah/koreksi teknis "
+        "(status *Dapat Digunakan dengan Catatan*). Nilai tersebut tetap disertakan dalam analisis dengan catatan lengkap."
     )
 if not include_review and count_review:
     st.caption(
-        f"Secara default {format_int(count_review)} nilai berstatus perlu tinjauan "
-        "sumber tidak dimasukkan ke grafik. Aktifkan opsinya di sidebar untuk meninjaunya."
+        f"🛡️ *Pengaturan Default:* Sebanyak {format_int(count_review)} nilai anomali ekstrem (>500 kg/kapita/tahun) "
+        "dikecualikan dari grafik agar tidak mendistorsi visualisasi. Anda dapat mengaktifkannya melalui sidebar."
     )
 
 
@@ -458,14 +781,40 @@ if page == "📊 Dashboard Visualisasi":
     )
     average_regions = float(regions_per_year.mean()) if not regions_per_year.empty else 0
 
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Rata-rata nilai konsumsi", format_num(avg_value), help="Rata-rata aritmetika atas observasi sesuai indikator dan filter; bukan total konsumsi nasional.")
-    c2.metric("Provinsi tercakup", format_int(provinces_count))
-    c3.metric("Cakupan wilayah per tahun", format_num(average_regions, 0))
-    c4.metric("Observasi indikator", format_int(observed_rows))
+    # Kartu Ringkasan KPI Modern
+    st.markdown(
+        f"""
+        <div class="kpi-container">
+            <div class="kpi-card">
+                <div class="kpi-icon">📊</div>
+                <div class="kpi-label">Rata-rata Konsumsi</div>
+                <div class="kpi-value">{format_num(avg_value)}</div>
+                <div class="kpi-desc">kg/kapita/tahun (Rata-rata observasi sesuai indikator & filter)</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">🏛️</div>
+                <div class="kpi-label">Provinsi Tercakup</div>
+                <div class="kpi-value">{format_int(provinces_count)}</div>
+                <div class="kpi-desc">Provinsi dalam cakupan filter aktif</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">📍</div>
+                <div class="kpi-label">Cakupan Wilayah / Tahun</div>
+                <div class="kpi-value">{format_num(average_regions, 0)}</div>
+                <div class="kpi-desc">Rata-rata kabupaten/kota per tahun</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">📑</div>
+                <div class="kpi-label">Observasi Indikator</div>
+                <div class="kpi-value">{format_int(observed_rows)}</div>
+                <div class="kpi-desc">Total baris observasi data yang dianalisis</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     st.caption(
-        f"Indikator KPI: {kpi_label}. Nilai merupakan rata-rata observasi "
-        "dalam satuan kg/kapita/tahun, bukan penjumlahan konsumsi nasional."
+        f"📌 *Fokus Indikator KPI Saat Ini:* **{kpi_label}**. Angka merupakan rata-rata konsumsi perorangan, bukan penjumlahan nasional."
     )
     st.divider()
 
@@ -489,8 +838,8 @@ if page == "📊 Dashboard Visualisasi":
                 y="Rata-rata konsumsi",
                 color="Kelompok pangan",
                 markers=True,
-                title="Tren rata-rata konsumsi per kelompok pangan",
-                template="plotly_white",
+                title="Tren Rata-rata Konsumsi per Kelompok Pangan (kg/kapita/tahun)",
+                color_discrete_sequence=FOOD_COLOR_SEQUENCE,
             )
             fig_group.update_xaxes(tickmode="linear", dtick=1)
         else:
@@ -499,13 +848,14 @@ if page == "📊 Dashboard Visualisasi":
                 x="Kelompok pangan",
                 y="Rata-rata konsumsi",
                 color="Kelompok pangan",
-                title="Rata-rata konsumsi per kelompok pangan",
-                template="plotly_white",
+                title="Rata-rata Konsumsi per Kelompok Pangan (kg/kapita/tahun)",
+                color_discrete_sequence=FOOD_COLOR_SEQUENCE,
             )
             fig_group.update_layout(showlegend=False)
         fig_group.update_layout(
+            **PLOTLY_THEME_LAYOUT,
             height=430,
-            xaxis_title="Tahun" if year_choice == "Semua" else "Kelompok pangan",
+            xaxis_title="Tahun" if year_choice == "Semua" else "Kelompok Pangan",
             yaxis_title="Konsumsi (kg/kapita/tahun)",
             margin=dict(l=20, r=20, t=60, b=40),
         )
@@ -531,12 +881,14 @@ if page == "📊 Dashboard Visualisasi":
             x="Tahun",
             y="Rata-rata konsumsi",
             markers=True,
-            title=f"Tren konsumsi komoditas: {commodity_choice}",
-            template="plotly_white",
+            title=f"Tren Konsumsi Komoditas: {commodity_choice} (kg/kapita/tahun)",
+            color_discrete_sequence=["#8FAE91"],
         )
         fig_commodity.update_xaxes(tickmode="linear", dtick=1)
         fig_commodity.update_layout(
+            **PLOTLY_THEME_LAYOUT,
             height=420,
+            xaxis_title="Tahun",
             yaxis_title="Konsumsi (kg/kapita/tahun)",
             margin=dict(l=20, r=20, t=60, b=40),
         )
@@ -561,10 +913,11 @@ if page == "📊 Dashboard Visualisasi":
             y="Komoditas",
             color="Kelompok pangan",
             orientation="h",
-            title="10 komoditas dengan rata-rata konsumsi tertinggi pada filter aktif",
-            template="plotly_white",
+            title="10 Komoditas dengan Rata-rata Konsumsi Tertinggi (kg/kapita/tahun)",
+            color_discrete_sequence=FOOD_COLOR_SEQUENCE,
         )
         fig_commodity.update_layout(
+            **PLOTLY_THEME_LAYOUT,
             height=460,
             xaxis_title="Konsumsi (kg/kapita/tahun)",
             yaxis_title="Komoditas",
@@ -705,10 +1058,16 @@ if page == "📊 Dashboard Visualisasi":
                 x="Rata-rata konsumsi",
                 y="Wilayah",
                 orientation="h",
-                title="10 wilayah dengan nilai tertinggi",
-                template="plotly_white",
+                title="10 Wilayah dengan Nilai Tertinggi",
+                color_discrete_sequence=["#8FAE91"],
             )
-            fig_top.update_layout(height=470, xaxis_title="kg/kapita/tahun", yaxis_title="")
+            fig_top.update_layout(
+                **PLOTLY_THEME_LAYOUT,
+                height=470,
+                xaxis_title="kg/kapita/tahun",
+                yaxis_title="",
+                margin=dict(l=10, r=20, t=50, b=40),
+            )
             st.plotly_chart(fig_top, use_container_width=True)
         with right:
             fig_bottom = px.bar(
@@ -716,10 +1075,16 @@ if page == "📊 Dashboard Visualisasi":
                 x="Rata-rata konsumsi",
                 y="Wilayah",
                 orientation="h",
-                title="10 wilayah dengan nilai terendah",
-                template="plotly_white",
+                title="10 Wilayah dengan Nilai Terendah",
+                color_discrete_sequence=["#E29578"],
             )
-            fig_bottom.update_layout(height=470, xaxis_title="kg/kapita/tahun", yaxis_title="")
+            fig_bottom.update_layout(
+                **PLOTLY_THEME_LAYOUT,
+                height=470,
+                xaxis_title="kg/kapita/tahun",
+                yaxis_title="",
+                margin=dict(l=10, r=20, t=50, b=40),
+            )
             st.plotly_chart(fig_bottom, use_container_width=True)
 
         with st.expander("Lihat tabel lengkap hasil perbandingan"):
@@ -826,14 +1191,16 @@ if page == "📊 Dashboard Visualisasi":
                 x="Tahun",
                 y="Konsumsi",
                 markers=True,
-                title=f"Tren {trend_value_label} — {district}",
-                template="plotly_white",
+                title=f"Tren Multi-Tahun: {trend_value_label} — {district}",
+                color_discrete_sequence=["#8FAE91"],
             )
             fig_trend.update_xaxes(tickmode="linear", dtick=1)
             fig_trend.update_layout(
+                **PLOTLY_THEME_LAYOUT,
                 height=390,
                 xaxis_title="Tahun",
                 yaxis_title="Konsumsi (kg/kapita/tahun)",
+                margin=dict(l=20, r=20, t=50, b=40),
             )
             st.plotly_chart(fig_trend, use_container_width=True)
         else:

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="420" viewBox="0 0 280 420" fill="none">
+  <g stroke="#8FAE91" stroke-opacity="0.09" stroke-width="1">
+    <!-- Topographic agricultural terrace contour lines -->
+    <path d="M-20 40 C60 10, 140 70, 290 25" />
+    <path d="M-20 62 C70 30, 150 92, 290 48" />
+    <path d="M-20 84 C80 50, 160 114, 290 72" />
+    <path d="M-20 310 C55 280, 145 340, 295 295" />
+    <path d="M-20 335 C65 305, 155 365, 295 320" />
+    <path d="M-20 360 C75 330, 165 390, 295 345" />
+    <!-- Minimalist rice stalk & leaf motif -->
+    <path d="M225 390 Q235 330 218 265" stroke-opacity="0.14" stroke-width="1.2"/>
+    <ellipse cx="212" cy="285" rx="4" ry="9" transform="rotate(-28 212 285)" stroke-opacity="0.14"/>
+    <ellipse cx="228" cy="300" rx="4" ry="9" transform="rotate(24 228 300)" stroke-opacity="0.14"/>
+    <ellipse cx="216" cy="318" rx="4" ry="9" transform="rotate(-25 216 318)" stroke-opacity="0.14"/>
+    <ellipse cx="232" cy="335" rx="4" ry="9" transform="rotate(22 232 335)" stroke-opacity="0.14"/>
+    <!-- Subtle data nodes -->
+    <circle cx="48" cy="44" r="2" fill="#8FAE91" fill-opacity="0.15"/>
+    <circle cx="145" cy="64" r="2" fill="#E9C46A" fill-opacity="0.15"/>
+    <circle cx="95" cy="328" r="2" fill="#8FAE91" fill-opacity="0.15"/>
+  </g>
+</svg>
