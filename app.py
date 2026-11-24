@@ -80,6 +80,26 @@ TEXT_COLUMNS = [
 ]
 
 
+# ============================================================
+# KAMUS & LABEL HUMANIS KUALITAS DATA
+# ============================================================
+QUALITY_LABEL_MAP = {
+    "DAPAT_DIGUNAKAN": "Dapat Digunakan Langsung",
+    "DAPAT_DIGUNAKAN_DENGAN_CATATAN": "Dapat Digunakan (Ada Catatan Koreksi/Rekonsiliasi)",
+    "PERLU_TINJAUAN_SUMBER": "Perlu Tinjauan Sumber (Anomali Nilai Ekstrem)",
+    "TIDAK_TERSEDIA": "Data Tidak Tersedia di Sumber",
+}
+
+STATUS_FINAL_LABEL_MAP = {
+    "NILAI_NUMERIK_SUMBER": "Nilai Angka Asli Sumber",
+    "NILAI_NOL_SUMBER": "Nilai Konsumsi 0 kg (Benar-benar Nol, Bukan Kosong)",
+    "NILAI_HASIL_REKONSILIASI": "Nilai Hasil Rekonsiliasi Wilayah",
+    "AGREGAT_DIKOREKSI_DARI_KOMPONEN": "Agregat Dikoreksi Berdasarkan Komponen",
+    "ANOMALI_NILAI_TINGGI_DARI_SUMBER": "Anomali Angka Ekstrem dari Sumber",
+    "NILAI_TIDAK_TERSEDIA_DI_SUMBER": "Data Tidak Tersedia di Sumber Bapanas",
+}
+
+
 @st.cache_data(show_spinner="Memuat dataset konsumsi pangan...")
 def load_data(path: str) -> pd.DataFrame:
     """Muat dan validasi dataset V2 tanpa mengubah file sumber."""
@@ -311,12 +331,13 @@ count_missing = int(quality_counts.get(STATUS_MISSING, 0))
 st.sidebar.title("🍚 Konsumsi Pangan")
 st.sidebar.caption("Sistem Informasi Visualisasi Konsumsi Pangan Kabupaten/Kota Indonesia")
 page = st.sidebar.radio(
-    "Navigasi",
-    ["Dashboard", "Data Konsumsi", "Tentang Data"],
+    "Navigasi Halaman",
+    ["📊 Dashboard Visualisasi", "📋 Tabel Data Konsumsi", "ℹ️ Tentang Data & Metodologi"],
     key="main_navigation_v2",
 )
 st.sidebar.divider()
-st.sidebar.markdown("**Filter data**")
+st.sidebar.markdown("**🔍 Filter Data Utama**")
+st.sidebar.caption("💡 Mengendalikan ringkasan KPI, Grafik 1 (Kelompok Pangan), dan Grafik 2 (Komoditas). Bagian Perbandingan 3 & 4 memiliki pengaturan mandiri.")
 
 all_years = sorted(df["Tahun"].dropna().astype(int).unique().tolist())
 year_options = with_all([str(year) for year in all_years])
@@ -405,9 +426,14 @@ if not include_review and count_review:
 # ============================================================
 # PAGE 1 — DASHBOARD
 # ============================================================
-if page == "Dashboard":
-    st.header("Dashboard Konsumsi Pangan")
-    st.caption("Ringkasan dan grafik diperbarui mengikuti filter di panel kiri.")
+if page == "📊 Dashboard Visualisasi":
+    st.header("Dashboard Visualisasi Konsumsi Pangan")
+    st.info(
+        "📌 **Panduan Filter:** Bagian **1. Ringkasan & Grafik Kelompok** serta **2. Grafik Komoditas** "
+        "mengikuti filter panel kiri secara langsung. Sedangkan bagian **3. Perbandingan Antarwilayah** "
+        "dan **4. Perbandingan Antarperiode** memiliki kontrol filter lokal tersendiri agar perbandingan "
+        "antarwilayah/periode tetap adil pada tahun dan indikator yang sama."
+    )
 
     # Pilih indikator KPI yang tidak mencampurkan agregat kelompok dan komoditas.
     if commodity_choice != "Semua":
@@ -554,8 +580,9 @@ if page == "Dashboard":
     # Perbandingan wilayah dalam satu tahun dan satu indikator.
     st.subheader("3. Perbandingan konsumsi antarwilayah")
     st.caption(
-        "Pilih satu tahun dan satu indikator agar wilayah dibandingkan pada "
-        "periode dan satuan yang sama."
+        "⚙️ **Pengaturan Khusus Perbandingan:** Bagian ini membandingkan seluruh kabupaten/kota atau provinsi "
+        "di Indonesia secara nasional pada satu tahun dan satu indikator tunggal yang Anda tentukan di bawah "
+        "(tidak dibatasi oleh filter provinsi/kabupaten di sidebar agar perbandingan nasional tetap utuh)."
     )
     cmp1, cmp2, cmp3 = st.columns(3)
     compare_year_options = [str(y) for y in all_years]
@@ -712,9 +739,9 @@ if page == "Dashboard":
     # Perbandingan antarperiode untuk identitas wilayah yang sama pada semua tahun.
     st.subheader("4. Perbandingan antarperiode pada wilayah yang sama")
     st.caption(
-        "Tren ini hanya ditawarkan untuk identitas kode, provinsi, dan nama wilayah "
-        "yang tersedia secara konsisten pada ketiga tahun. Wilayah yang berubah "
-        "akibat pemekaran atau perubahan identitas dapat tidak masuk daftar ini."
+        "⚙️ **Pengaturan Khusus Tren Antarperiode:** Analisis tren membutuhkan identitas wilayah yang konsisten. "
+        "Bagian ini menggunakan pilihan wilayah tersendiri dari daftar 487 kabupaten/kota yang identitasnya "
+        "stabil selama 2021–2023 (tidak terpengaruh oleh filter tahun di sidebar agar dapat menampilkan pergerakan 3 tahun penuh)."
     )
 
     identity_cols = [
@@ -821,13 +848,27 @@ if page == "Dashboard":
 # ============================================================
 # PAGE 2 — DATA KONSUMSI
 # ============================================================
-elif page == "Data Konsumsi":
-    st.header("Data Konsumsi Pangan")
-    st.caption(
-        "Tabel menampilkan data sesuai filter. Status kualitas disediakan agar "
-        "pengguna dapat membedakan nilai tersedia, nilai dengan catatan, anomali, "
-        "dan nilai yang tidak tersedia."
+elif page == "📋 Tabel Data Konsumsi":
+    st.header("📋 Tabel Rincian Data Konsumsi Pangan")
+    st.markdown(
+        "Tabel ini memuat data mikro kabupaten/kota yang telah disaring melalui panel filter kiri. "
+        "Dilengkapi indikator transparansi kualitas data agar pengguna dapat membedakan nilai angka riil, "
+        "koreksi/rekonsiliasi, serta data yang tidak dilaporkan."
     )
+
+    with st.expander("💡 Panduan Membaca Status Kualitas & Nilai Nol (Klik untuk Membuka)", expanded=False):
+        st.markdown(
+            """
+            - **Nilai 0 (Nol) vs Kosong:**
+              - **Nilai 0 kg/kapita/tahun** berarti komoditas tersebut **memang disurvei** namun konsumsi rata-rata penduduk pada wilayah tersebut tercatat 0 (misalnya tidak dikonsumsi atau konsumsi di bawah batas pembulatan).
+              - **Data Kosong / Tidak Tersedia** berarti instansi sumber (Bapanas) **tidak memiliki catatan data** untuk wilayah/komoditas tersebut. Data ini sengaja tidak diganti menjadi angka 0 agar tidak menyesatkan analisis statistik.
+            - **Status Kelayakan Dashboard:**
+              - **Dapat Digunakan Langsung:** Data valid dan lolos verifikasi konsistensi.
+              - **Dapat Digunakan (Ada Catatan Koreksi/Rekonsiliasi):** Data valid yang mengalami penyesuaian teknis (misal rekonsiliasi wilayah atau koreksi typo minus dari sumber).
+              - **Perlu Tinjauan Sumber:** Data dengan nilai ekstrem tinggi (>500 kg/kapita/tahun) yang dipertahankan sesuai sumber asli namun dikecualikan dari grafik default.
+              - **Data Tidak Tersedia di Sumber:** Catatan survei tidak ditemukan pada file sumber asli.
+            """
+        )
 
     status_options = [
         "DAPAT_DIGUNAKAN",
@@ -836,24 +877,27 @@ elif page == "Data Konsumsi":
         "TIDAK_TERSEDIA",
     ]
     selected_statuses = st.multiselect(
-        "Status kualitas data",
+        "Filter status kelayakan data:",
         status_options,
         default=status_options,
-        help="Secara default semua status ditampilkan pada tabel. Status ini tidak mengubah file CSV.",
+        format_func=lambda s: QUALITY_LABEL_MAP.get(s, s),
+        help="Pilih status kualitas data yang ingin ditampilkan pada tabel.",
     )
     table_view = table_rows_all.loc[
         table_rows_all["Status_Kelayakan_Dashboard_19"].isin(selected_statuses)
     ].copy()
 
     t1, t2, t3 = st.columns(3)
-    t1.metric("Baris sesuai filter", format_int(len(table_view)))
+    t1.metric("Total Baris Sesuai Filter", format_int(len(table_view)))
     t2.metric(
-        "Perlu tinjauan sumber",
+        "Perlu Tinjauan Sumber (Ekstrem)",
         format_int(int(table_view["Status_Kelayakan_Dashboard_19"].eq(STATUS_REVIEW).sum())),
+        help="Nilai ekstrem yang memerlukan konfirmasi produsen data."
     )
     t3.metric(
-        "Tidak tersedia",
+        "Data Tidak Tersedia (Missing)",
         format_int(int(table_view["Status_Kelayakan_Dashboard_19"].eq(STATUS_MISSING).sum())),
+        help="Data tidak ada di file sumber Bapanas (bukan angka 0)."
     )
 
     display_columns = [
@@ -867,132 +911,168 @@ elif page == "Data Konsumsi":
         "Konsumsi_Pangan_Final",
         "Status_Kelayakan_Dashboard_19",
         "Status_Final_Dataset_19",
-        "Flag_Anomali_Sumber_19",
         "Catatan_Final_Dataset_19",
-        "Catatan_Pembersihan_Nilai_18",
         "Catatan_Rekonsiliasi_16E",
         "Konsumsi Pangan",
     ]
     display_columns = [col for col in display_columns if col in table_view.columns]
-    table_view = table_view[display_columns].copy()
-    table_view = table_view.rename(columns={
-        "Kode_Wilayah_BPS_Final16E": "Kode BPS",
+    table_view_display = table_view[display_columns].copy()
+
+    # Ubah kode teknis menjadi label yang mudah dipahami
+    table_view_display["Status_Kelayakan_Dashboard_19"] = table_view_display["Status_Kelayakan_Dashboard_19"].map(
+        lambda x: QUALITY_LABEL_MAP.get(x, x)
+    )
+    table_view_display["Status_Final_Dataset_19"] = table_view_display["Status_Final_Dataset_19"].map(
+        lambda x: STATUS_FINAL_LABEL_MAP.get(x, x)
+    )
+
+    table_view_display = table_view_display.rename(columns={
+        "Kode_Wilayah_BPS_Final16E": "Kode Wilayah BPS",
         "Provinsi_BPS_Final16E": "Provinsi",
         "Kabupaten_Kota_BPS_Final16E": "Kabupaten/Kota",
-        "Kelompok_Bahan_Standar": "Kelompok pangan",
+        "Kelompok_Bahan_Standar": "Kelompok Pangan",
         "Komoditas_Standar": "Komoditas",
-        "Konsumsi_Pangan_Final": "Konsumsi final (kg/kapita/tahun)",
-        "Status_Kelayakan_Dashboard_19": "Status kelayakan dashboard",
-        "Status_Final_Dataset_19": "Status nilai final",
-        "Flag_Anomali_Sumber_19": "Flag anomali sumber",
-        "Catatan_Final_Dataset_19": "Catatan finalisasi",
-        "Catatan_Pembersihan_Nilai_18": "Catatan pembersihan nilai",
-        "Catatan_Rekonsiliasi_16E": "Catatan rekonsiliasi wilayah",
-        "Konsumsi Pangan": "Nilai sumber asli",
+        "Konsumsi_Pangan_Final": "Konsumsi Final (kg/kapita/tahun)",
+        "Status_Kelayakan_Dashboard_19": "Status Kelayakan",
+        "Status_Final_Dataset_19": "Kategori Nilai Data",
+        "Catatan_Final_Dataset_19": "Penjelasan Audit & Kualitas",
+        "Catatan_Rekonsiliasi_16E": "Catatan Rekonsiliasi Wilayah",
+        "Konsumsi Pangan": "Nilai Mentah Sumber Asli",
     })
 
     st.dataframe(
-        table_view.head(300),
+        table_view_display.head(300),
         use_container_width=True,
         hide_index=True,
     )
-    if len(table_view) > 300:
+    if len(table_view_display) > 300:
         st.caption(
-            f"Pratinjau menampilkan 300 dari {format_int(len(table_view))} baris. "
-            "Gunakan tombol unduh untuk memperoleh seluruh hasil filter."
+            f"Pratinjau menampilkan 300 dari {format_int(len(table_view_display))} baris. "
+            "Gunakan tombol di bawah untuk mengunduh seluruh baris hasil filter."
         )
     st.download_button(
-        "Unduh seluruh data sesuai filter (CSV)",
-        csv_bytes(table_view),
+        "📥 Unduh Seluruh Data Sesuai Filter (CSV)",
+        csv_bytes(table_view_display),
         file_name="data_konsumsi_pangan_hasil_filter.csv",
         mime="text/csv",
     )
 
 
 # ============================================================
-# PAGE 3 — TENTANG DATA
+# PAGE 3 — TENTANG DATA & METODOLOGI
 # ============================================================
 else:
-    st.header("Tentang Sistem dan Kualitas Data")
+    st.header("ℹ️ Tentang Sistem, Data, dan Metodologi Penyiapan")
     st.markdown(
-        "Sistem ini menyajikan informasi konsumsi pangan penduduk pada tingkat "
-        "kabupaten/kota di Indonesia untuk membantu pengguna menelusuri, memahami, "
-        "dan membandingkan data melalui filter, grafik, dan tabel."
+        "Sistem ini dirancang untuk menyajikan data konsumsi pangan penduduk di 514 kabupaten/kota "
+        "seluruh Indonesia. Halaman ini menjelaskan asal-usul data, periode, satuan pengukuran, "
+        "arti kolom-kolom kunci, serta tahapan pembersihan dan standardisasi data."
     )
 
-    st.subheader("Sumber dan cakupan data")
-    st.write(
-        "Sumber konsumsi: Badan Pangan Nasional (2024), *Rata-rata Konsumsi per "
-        "Jenis Pangan Penduduk Indonesia Kabupaten/Kota Tahun 2021–2023*."
-    )
-    st.write("Periode: 2021–2023. Satuan: kg per kapita per tahun.")
+    t_info1, t_info2, t_info3 = st.tabs([
+        "📌 Sumber, Periode & Satuan",
+        "🔍 Kamus Kolom & Struktur",
+        "⚙️ Penyiapan Data & Transparansi Kualitas",
+    ])
 
-    coverage = (
-        df.groupby("Tahun")
-        .agg(
-            Baris=("No", "count"),
-            Wilayah=("Kode_Wilayah_BPS_Final16E", "nunique"),
-            Provinsi=("Provinsi_BPS_Final16E", "nunique"),
+    with t_info1:
+        st.subheader("1. Sumber Data dan Periode Survei")
+        st.markdown(
+            """
+            - **Produsen Data:** **Badan Pangan Nasional (Bapanas)** Republik Indonesia (2024).
+            - **Judul Publikasi:** *Rata-rata Konsumsi per Jenis Pangan Penduduk Indonesia Kabupaten/Kota Tahun 2021–2023*.
+            - **Periode Analisis:** **Tahun 2021, 2022, dan 2023** (3 tahun survei berturut-turut).
+            - **Satuan Pengukuran:** **kg / kapita / tahun** (kilogram per orang per tahun).
+              - Menunjukkan estimasi jumlah fisik bahan makanan yang dikonsumsi rata-rata oleh satu individu dalam jangka waktu satu tahun.
+            - **Cakupan Wilayah:** 514 Kabupaten/Kota di seluruh Indonesia pada masing-masing tahun (total 1.542 wilayah-tahun).
+            """
         )
-        .reset_index()
-    )
-    st.dataframe(coverage, use_container_width=True, hide_index=True)
-    st.caption(
-        "Struktur provinsi pada referensi kerja: 34 provinsi pada 2021 dan 2022, "
-        "serta 38 provinsi pada 2023. Karena ada perubahan wilayah administratif, "
-        "perbandingan antarperiode perlu memperhatikan konsistensi identitas wilayah."
-    )
-    st.warning(
-        "Identitas kode dan nama wilayah pada aplikasi merupakan hasil standardisasi, "
-        "pemetaan, dan rekonsiliasi dalam pengolahan data penelitian. Hasil tersebut "
-        "tidak boleh ditafsirkan sebagai pengesahan atau konfirmasi resmi dari BPS. "
-        "Catatan keputusan pemetaan dan kasus yang memerlukan penjelasan tetap perlu "
-        "dirujuk pada arsip audit penelitian."
-    )
 
-    st.subheader("Status kualitas dataset")
-    zero_count = int(df["Status_Final_Dataset_19"].eq("NILAI_NOL_SUMBER").sum())
-    empty_count = int(df["Status_Kelayakan_Dashboard_19"].eq(STATUS_MISSING).sum())
-    anomaly_count = int(df["Status_Kelayakan_Dashboard_19"].eq(STATUS_REVIEW).sum())
-    q1, q2, q3 = st.columns(3)
-    q1.metric("Nilai nol dari sumber", format_int(zero_count))
-    q2.metric("Nilai tidak tersedia", format_int(empty_count))
-    q3.metric("Nilai perlu tinjauan", format_int(anomaly_count))
-    quality_table = pd.DataFrame(
-        [
-            ["DAPAT_DIGUNAKAN", count_usable, "Nilai tersedia dan lolos pemeriksaan dasar."],
-            ["DAPAT_DIGUNAKAN_DENGAN_CATATAN", count_notes, "Nilai hasil rekonsiliasi/koreksi yang disertai catatan."],
-            ["PERLU_TINJAUAN_SUMBER", count_review, "Nilai ekstrem dari sumber; dikecualikan dari grafik secara default."],
-            ["TIDAK_TERSEDIA", count_missing, "Nilai tidak tersedia di sumber; tidak diperlakukan sebagai nol."],
-        ],
-        columns=["Status", "Jumlah baris", "Perlakuan di sistem"],
-    )
-    st.dataframe(quality_table, use_container_width=True, hide_index=True)
+        st.markdown("#### Matriks Cakupan Wilayah per Tahun")
+        coverage = (
+            df.groupby("Tahun")
+            .agg(
+                Total_Baris=("No", "count"),
+                Kabupaten_Kota=("Kode_Wilayah_BPS_Final16E", "nunique"),
+                Provinsi=("Provinsi_BPS_Final16E", "nunique"),
+            )
+            .reset_index()
+            .rename(columns={
+                "Total_Baris": "Jumlah Baris Data",
+                "Kabupaten_Kota": "Jumlah Kab/Kota",
+                "Provinsi": "Jumlah Provinsi",
+            })
+        )
+        st.dataframe(coverage, use_container_width=True, hide_index=True)
+        st.caption(
+            "Catatan pemekaran wilayah: Referensi resmi BPS mencatat 34 provinsi pada 2021–2022, "
+            "dan bertambah menjadi 38 provinsi pada 2023 seiring pemekaran 4 provinsi baru di wilayah Papua."
+        )
 
-    st.warning(
-        "Delapan nilai yang ditandai PERLU_TINJAUAN_SUMBER tetap dipertahankan "
-        "untuk ketertelusuran, tetapi tidak dimasukkan ke grafik secara default. "
-        "Enam belas nilai TIDAK_TERSEDIA ditampilkan sebagai data tidak tersedia, "
-        "bukan sebagai nilai nol."
-    )
-    st.info(
-        "Sebelas baris berstatus DAPAT_DIGUNAKAN_DENGAN_CATATAN mencakup nilai "
-        "hasil rekonsiliasi dan koreksi. Catatan pengolahannya tersedia pada "
-        "dataset dan halaman Data Konsumsi."
-    )
+    with t_info2:
+        st.subheader("2. Kamus Kolom Kunci Dataset")
+        st.markdown(
+            "Dataset final V2 memuat 35 kolom data. Berikut kolom-kolom utama yang penting untuk dipahami:"
+        )
+        cols_dict = pd.DataFrame(
+            [
+                ["No", "Nomor urut identifikasi baris data (1 s.d. 52.428)."],
+                ["Tahun", "Tahun survei data konsumsi pangan (2021, 2022, atau 2023)."],
+                ["Kode Wilayah (Bapanas)", "Kode wilayah asli yang tercantum pada dokumen survei Bapanas."],
+                ["Kode_Wilayah_BPS_Final16E", "Kode resmi wilayah 4-digit standar BPS hasil pemetaan dan rekonsiliasi."],
+                ["Provinsi_BPS_Final16E", "Nama provinsi standar BPS sesuai referensi tahun bersangkutan."],
+                ["Kabupaten_Kota_BPS_Final16E", "Nama resmi kabupaten/kota standar BPS (contoh: Kabupaten Sleman, Kota Bogor)."],
+                ["Kelompok_Bahan_Standar", "8 kelompok bahan pangan standar: Padi-padian, Umbi-umbian, Pangan Hewani, Minyak dan Lemak, Buah/Biji Berminyak, Kacang-kacangan, Gula, serta Sayur dan Buah."],
+                ["Komoditas_Standar", "Nama komoditas spesifik (26 komoditas) atau nama kelompok pangan untuk baris agregat."],
+                ["Konsumsi Pangan", "Nilai angka mentah asli sebagaimana tercantum pada file sumber."],
+                ["Konsumsi_Pangan_Final", "Nilai konsumsi numerik final yang telah lolos validasi, koreksi typo, dan siap divisualisasikan."],
+                ["Status_Kelayakan_Dashboard_19", "Kategori kelayakan apakah baris dapat langsung masuk ke grafik atau dikecualikan."],
+                ["Status_Final_Dataset_19", "Rincian status data: angka asli, nol asli, rekonsiliasi, koreksi minus, atau tidak tersedia."],
+                ["Catatan_Final_Dataset_19", "Keterangan naratif lengkap mengenai keputusan audit data pada baris tersebut."],
+            ],
+            columns=["Nama Kolom", "Penjelasan & Fungsi"],
+        )
+        st.dataframe(cols_dict, use_container_width=True, hide_index=True)
 
-    st.subheader("Keterangan penghitungan")
-    st.markdown(
-        "- Grafik kelompok pangan menggunakan baris agregat kelompok pangan.\n"
-        "- Grafik komoditas menggunakan baris komoditas penyusun.\n"
-        "- Rata-rata yang ditampilkan adalah rata-rata aritmetika observasi yang "
-        "memenuhi filter, bukan total konsumsi nasional.\n"
-        "- Baris agregat kelompok tidak dijumlahkan kembali dengan komoditas "
-        "penyusunnya untuk menghindari penghitungan ganda."
-    )
+    with t_info3:
+        st.subheader("3. Metodologi Penyiapan & Kualitas Data")
+        st.markdown(
+            """
+            Data mentah Bapanas memerlukan pembersihan (*data cleaning*) dan standardisasi sebelum siap dianalisis:
+            1. **Standardisasi Wilayah (Crosswalk BPS):** Mengaitkan penamaan wilayah Bapanas dengan master wilayah BPS resmi (termasuk penyesuaian pemekaran provinsi baru tahun 2023).
+            2. **Pemisahan Baris Agregat & Komoditas:** File sumber mencampurkan total kelompok (8 baris) dengan komoditas perinci (26 baris). Sistem menandai baris agregat secara ketat agar tidak terjadi penghitungan ganda (*double counting*).
+            3. **Koreksi Typo Minus:** Ditemukan 1 baris salah ketik tanda minus (-59.23 pada Sayur & Buah Kab. Pegunungan Bintang 2021) yang dikoreksi menjadi nilai positif (59.23) karena didukung penjumlahan komponen penyusunnya.
+            4. **Penanganan Nilai 0 vs Nilai Tidak Tersedia:**
+               - **1.511 baris Nilai Nol (0):** Memang bernilai 0 di sumber (tidak dikonsumsi) dan tetap dihitung sebagai angka nol.
+               - **16 baris Tidak Tersedia:** Data survei tidak ada. Dibiarkan kosong (*missing*) dan **tidak dianggap nol**, agar tidak merusak rata-rata statistik.
+               - **8 baris Anomali Ekstrem (>500 kg/kapita/tahun):** Nilai dari sumber sangat tinggi di luar kelaziman biologis (misal padi-padian >600 kg/kapita/tahun). Data tetap disimpan di tabel, namun secara default **dikeluarkan dari grafik** agar skala grafik tidak terdistorsi.
+            """
+        )
 
-    st.subheader("Teknologi")
-    st.write("Python, Streamlit, Pandas, dan Plotly.")
+        st.markdown("#### Distribusi Kualitas Data")
+        zero_count = int(df["Status_Final_Dataset_19"].eq("NILAI_NOL_SUMBER").sum())
+        empty_count = int(df["Status_Kelayakan_Dashboard_19"].eq(STATUS_MISSING).sum())
+        anomaly_count = int(df["Status_Kelayakan_Dashboard_19"].eq(STATUS_REVIEW).sum())
+        q1, q2, q3 = st.columns(3)
+        q1.metric("Nilai Riil 0 (Nol Survei)", format_int(zero_count), help="Konsumsi bernilai 0 kg/kapita/tahun")
+        q2.metric("Data Tidak Dilaporkan", format_int(empty_count), help="Kosong di sumber Bapanas")
+        q3.metric("Anomali Nilai Ekstrem (>500)", format_int(anomaly_count), help="Nilai tinggi luar biasa dari sumber")
+
+        quality_table = pd.DataFrame(
+            [
+                ["Dapat Digunakan Langsung", count_usable, "Nilai angka valid dan lolos verifikasi standar."],
+                ["Dapat Digunakan (Ada Catatan)", count_notes, "Nilai valid hasil koreksi typo minus atau rekonsiliasi wilayah."],
+                ["Perlu Tinjauan Sumber (Ekstrem)", count_review, "Nilai ekstrem >500 kg dari sumber asli; dikecualikan dari grafik default."],
+                ["Data Tidak Tersedia di Sumber", count_missing, "Data kosong di dokumen Bapanas; dipertahankan kosong, bukan nol."],
+            ],
+            columns=["Kategori Kualitas", "Jumlah Baris", "Perlakuan pada Sistem"],
+        )
+        st.dataframe(quality_table, use_container_width=True, hide_index=True)
+
+        st.caption(
+            "Keterbukaan Metodologi: Standarisasi wilayah dilakukan untuk kepentingan analisis akademis "
+            "dan bukan merupakan pengesahan batas administrasi wilayah resmi dari BPS."
+        )
 
 st.divider()
 st.caption(
