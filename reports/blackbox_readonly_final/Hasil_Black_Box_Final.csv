@@ -1,0 +1,26 @@
+Kode Uji,Modul/Fitur,Skenario Uji,Expected Result,Actual Result,Status
+BB-01,Pemuatan Aplikasi,Jalankan streamlit run app.py dan uji pemuatan via AppTest,Aplikasi terbuka tanpa exception & membaca dataset V2,Server localhost:8501 HTTP 200; AppTest memuat tanpa exception,PASS
+BB-02,Navigasi Halaman,Buka seluruh 3 menu navigasi via AppTest,"Dashboard, Tabel Data Konsumsi, Tentang Data & Metodologi terbuka tanpa error",Ketiga halaman terbuka berurutan tanpa exception,PASS
+BB-03,Filter Tahun,"Pilih 2021, 2022, dan 2023 secara bergantian",Setiap tahun menghasilkan 17.476 baris (4.112 agregat + 13.364 komoditas),"2021=17.476, 2022=17.476, 2023=17.476; interaksi AppTest sukses",PASS
+BB-04,Filter Provinsi,Pilih provinsi Aceh dan Jawa Barat,Data dan opsi kab/kota mengikuti provinsi terpilih,"Aceh=23 kab/kota, Jawa Barat=27 kab/kota; opsi kab/kota AppTest dinamis",PASS
+BB-05,Filter Kabupaten/Kota,Pilih Aceh -> Kabupaten Aceh Barat Daya,Data hanya menampilkan wilayah terpilih (34 indikator/tahun),Tepat 34 baris (8 agregat + 26 komoditas) untuk Kabupaten Aceh Barat Daya (2023),PASS
+BB-06,Validasi 6 Wilayah DKI Jakarta,"Periksa kode 3101, 3171, 3172, 3173, 3174, 3175 pada provinsi DKI Jakarta",Keenam wilayah termasuk Jakarta Utara ditemukan tanpa terhilang,Keenam kode hadir di DKI Jakarta (nama BPS tanpa kata Administrasi),PASS
+BB-07,Filter Kelompok Pangan,Pilih kelompok Padi-padian,Grafik kelompok memakai baris agregat (514 baris pada 2023),514 baris dengan seluruhnya _is_agregat == True,PASS
+BB-08,Filter Komoditas,Pilih Padi-padian -> Beras,Grafik komoditas memakai baris komoditas penyusun tanpa agregat,514 baris komoditas dengan 0 baris agregat,PASS
+BB-09,Pencarian Cepat,Kata kunci Sleman dan Beras,"Menampilkan hanya data sesuai kata kunci (Sleman=102, Beras=1.542)",Sleman=102 baris (Kabupaten Sleman); Beras=1.542 baris,PASS
+BB-10,Grafik Kelompok Pangan,Render grafik kelompok pada default & tahun 2023 + Jawa Barat,Grafik Plotly terbentuk tanpa error & berubah sesuai filter,Terender tanpa exception pada AppTest dan browser,PASS
+BB-11,Grafik Komoditas,Pilih kelompok Padi-padian -> Beras via AppTest,Grafik menampilkan komoditas sesuai filter & urutan tertinggi,Terender tanpa exception pada AppTest & browser,PASS
+BB-12,Penanganan Nilai Tinjauan Sumber,Toggle checkbox PERLU_TINJAUAN_SUMBER,8 nilai dikecualikan default & dapat disertakan via checkbox,Selisih baris layak grafik aktif vs default tepat 8 baris,PASS
+BB-13,Penanganan Nilai Tidak Tersedia,Periksa 16 baris berstatus TIDAK_TERSEDIA,"Nilai tetap NaN, tidak dianggap 0, tidak masuk grafik",Seluruh 16 baris bernilai NaN; 0 nilai NaN masuk grafik,PASS
+BB-14,Tabel Data Konsumsi,Buka halaman Tabel Data Konsumsi via AppTest,Seluruh 15 kolom tampil termasuk Flag Anomali & Catatan Pembersihan Nilai,Seluruh 15 kolom tampil lengkap sesuai spesifikasi,PASS
+BB-15,Ekspor CSV,Ekspor seluruh dataset & filter Jawa Barat 2023,"CSV memuat seluruh baris filter (52.428 dan 918), bukan pratinjau 300",CSV seluruh data=52.428 baris; CSV Jabar 2023=918 baris,PASS
+BB-16,Perbandingan Antarwilayah,"Tahun 2023, Kabupaten/Kota, indikator Padi-padian",Top 10 & Bottom 10 pada tahun dan indikator sama tanpa duplikasi,513 kab/kota unik (1 anomali dikecualikan); Top 10 & Bottom 10 terbentuk,PASS
+BB-17,Perbandingan Antarperiode,Cek daftar wilayah stabil 2021-2023,Hanya wilayah identitas konsisten (487 kab/kota) yang ditawarkan,Tepat 487 kabupaten/kota konsisten pada ketiga tahun,PASS
+BB-18,Ringkasan KPI,"Ubah filter tahun, provinsi, dan indikator",4 kartu KPI diperbarui tanpa mencampur agregat & komoditas,2023 agregat=4.110 observasi (38 prov); Beras=514 observasi komoditas,PASS
+BB-19,Konsistensi Filter,Ubah filter utama ke 2022 & Aceh via AppTest,Grafik utama ikut sidebar; perbandingan & tren pakai kontrol lokal,compare_year_v2 dan trend_region_v2 tetap independen tanpa konflik,PASS
+BB-20,Informasi Metodologi & Kualitas,Buka halaman Tentang Data & Metodologi via AppTest,"Sumber Bapanas, periode, satuan, 11 catatan, 8 tinjauan, 16 missing tampil benar",Seluruh informasi sumber/satuan/nol/missing/ekstrem tampil lengkap,PASS
+BB-21,Penanganan Kondisi Tanpa Hasil,Pencarian kata kunci tidak ada lalu reset via AppTest,Menampilkan pesan info wajar tanpa crash dan pulih saat filter direset,Menampilkan pesan info kosong tanpa exception dan pulih normal saat direset,PASS
+UI-01,Tema & Aset Visual,"Uji browser Playwright atas .stApp, .header-hero, aset lokal",Aset lokal dimuat tanpa URL eksternal & tema gelap konsisten,"appBgColor=rgb(16, 27, 24), appHasBgImage=true, heroHasBgImage=true, 0 error",PASS
+UI-02,Keterbacaan & Interaksi,"Uji kontras, kartu KPI, grafik Plotly, tabel, dan tombol unduh di browser","Teks terbaca, KPI tidak bertumpuk, seluruh kontrol aktif","kpiCount=4, kpi_overlaps=[], chartCount=5, chartOverflows=[], dlBtnVisible=true",PASS
+UI-03,Responsivitas Browser,"Uji Playwright pada 1366x768, 768x1024, dan 390x844",Tidak ada elemen terpotong/bertumpuk; grafik & tabel responsif,"docScrollWidth == viewport pada 3 ukuran, 0 error (catatan UX ringan dicatat)",PASS
+

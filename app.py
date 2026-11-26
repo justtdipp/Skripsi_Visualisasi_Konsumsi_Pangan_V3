@@ -210,6 +210,27 @@ st.markdown(
         border-radius: 14px;
         padding: 10px 12px;
         box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+        box-sizing: border-box;
+        max-width: 100%;
+    }}
+
+    /* Isolated Table Container Fix for Mobile & Tablet Viewports */
+    div[data-testid="stDataFrame"] {{
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }}
+    div[data-testid="stDataFrame"] > div {{
+        max-width: 100% !important;
+    }}
+    @media (max-width: 1024px) {{
+        div[data-testid="stDataFrame"] {{
+            padding: 8px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: auto !important;
+        }}
     }}
 
     /* Alert / Callout Boxes */
